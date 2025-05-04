@@ -15,36 +15,17 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import Image from "next/image";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-
-// Login schema
-const loginSchema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(8, "A senha deve ter pelo menos 8 caracteres"),
-});
-
-// Register schema
-const registerSchema = z
-  .object({
-    email: z.string().email("Email inválido"),
-    password: z.string().min(8, "A senha precisa de pelo menos 8 caracteres"),
-    confirmPassword: z.string(),
-    terms: z.literal(true, {
-      errorMap: () => ({ message: "Você precisa aceitar os termos" }),
-    }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "As senhas não coincidem",
-    path: ["confirmPassword"],
-  });
-
-type LoginData = z.infer<typeof loginSchema>;
-type RegisterData = z.infer<typeof registerSchema>;
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { RegisterData, registerSchema } from "@/lib/validations/registerSchema";
+import { LoginData, loginSchema } from "@/lib/validations/signinSchema";
+import { toast } from "sonner";
 
 export default function Login() {
   const [tab, setTab] = useState("login");
+  const router = useRouter();
 
   const {
     register: registerLogin,
@@ -58,6 +39,8 @@ export default function Login() {
     register: registerRegister,
     handleSubmit: handleRegisterSubmit,
     formState: { errors: registerErrors },
+    control,
+    reset,
   } = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
   });
@@ -73,20 +56,36 @@ export default function Login() {
       const response = await res.json();
 
       if (!res.ok) {
-        alert(response.error || "Erro ao cadastrar.");
+        toast.error(response.error || "Erro ao cadastrar.");
         return;
       }
 
-      alert("Usuário cadastrado com sucesso!");
+      toast.success("Usuário cadastrado com sucesso!");
+      reset();
       setTab("login");
     } catch (err) {
-      alert("Erro inesperado. Tente novamente.");
+      toast.error("Erro inesperado. Tente novamente.");
     }
   }
 
   async function onLogin(data: LoginData) {
-    console.log("Login data:", data);
-    // Aqui você pode implementar o fetch para login
+    try {
+      const res = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+
+      if (!res?.ok) {
+        toast.error("Credenciais inválidas");
+        return;
+      }
+
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Erro inesperado ao fazer login:", error);
+      toast.error("Erro inesperado. Tente novamente.");
+    }
   }
 
   return (
@@ -273,7 +272,21 @@ export default function Login() {
                     )}
                   </div>
                   <div className="flex items-center space-x-2 mt-[30px]">
-                    <Checkbox id="terms" className="size-5" />
+                    <Controller
+                      control={control}
+                      name="terms"
+                      render={({ field }) => (
+                        <Checkbox
+                          id="terms"
+                          className="size-5"
+                          checked={field.value}
+                          onCheckedChange={(checked) =>
+                            field.onChange(checked === true)
+                          }
+                        />
+                      )}
+                    />
+
                     <label
                       htmlFor="terms"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -282,6 +295,12 @@ export default function Login() {
                       <span className="text-primary">Termos e Condições</span>
                     </label>
                   </div>
+
+                  {registerErrors.terms && (
+                    <p className="text-red-500 text-sm font-medium">
+                      {registerErrors.terms.message}
+                    </p>
+                  )}
                 </CardContent>
                 <CardFooter className="flex flex-col gap-4 w-full">
                   <Button

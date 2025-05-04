@@ -1,5 +1,6 @@
 import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const beVietnamPro = Be_Vietnam_Pro({
   subsets: ["latin"],
@@ -16,6 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${beVietnamPro.variable} font-sans antialiased`}>
         {children}
+        <Toaster richColors />
       </body>
     </html>
   );
