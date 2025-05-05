@@ -9,7 +9,7 @@ export default function Dashboard() {
       <h1 className="text-2xl font-bold">Dashboard</h1>
 
       <Button
-        variant="destructive"
+        variant="default"
         onClick={() => signOut({ callbackUrl: "/login" })}
       >
         Sair

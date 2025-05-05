@@ -89,17 +89,29 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen grid grid-cols-2">
-      <div className="h-screen overflow-y-auto flex flex-col pt-[68px] pl-[91px]">
+    <div className="min-h-screen lg:grid lg:grid-cols-2 relative overflow-hidden">
+      {/* Mobile Bg Image */}
+      <div className="lg:hidden fixed inset-0 -z-10 h-full min-h-screen">
+        <Image
+          src="/bg.png"
+          alt="Imagem de fundo"
+          fill
+          className="object-fill"
+          priority
+        />
+      </div>
+
+      {/* Form Section */}
+      <div className="flex flex-col pt-[68px] px-6 sm:px-12 lg:px-0 lg:pl-[91px] lg:pt-[68px] bg-white bg-opacity-90 lg:bg-opacity-100 lg:bg-white lg:rounded-none lg:m-0 lg:h-screen lg:overflow-y-auto m-7 rounded-2xl">
         <Image
           src="/logo.svg"
           alt="logo"
           width={190}
           height={40}
-          className="mb-[50px]"
+          className="mb-[30px] lg:mb-[50px] mx-auto lg:mx-0"
         />
-        <Tabs value={tab} onValueChange={setTab} className="w-[406px]">
-          <TabsList className="grid w-[211px] grid-cols-2 mb-[18px]">
+        <Tabs value={tab} onValueChange={setTab} className="w-full max-w-md">
+          <TabsList className="grid w-[211px] mx-auto lg:mx-0 max-w-xs grid-cols-2  mb-0 lg:mb-[18px]">
             <TabsTrigger value="login" className="text-xs font-medium">
               Entrar
             </TabsTrigger>
@@ -113,23 +125,26 @@ export default function Login() {
             <form onSubmit={handleLoginSubmit(onLogin)}>
               <Card>
                 <CardHeader>
-                  <CardTitle className="font-bold text-[32px] mb-[18px]">
+                  <CardTitle className="font-bold text-2xl lg:text-[32px] mb-[18px]">
                     Entrar
                   </CardTitle>
-                  <CardDescription className="text-base">
+                  <CardDescription className="text-xs lg:text-base">
                     Digite suas credenciais para entrar
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="space-y-1">
-                    <Label htmlFor="email" className="text-base font-medium">
+                    <Label
+                      htmlFor="email"
+                      className="text-xs lg:text-base font-medium"
+                    >
                       Email
                     </Label>
                     <Input
                       id="email"
                       type="email"
                       placeholder="e-mail@website.com"
-                      className="h-[61px] mt-3 mb-4"
+                      className="h-[51px] mt-3 mb-4 text-sm lg:text-base"
                       {...registerLogin("email")}
                     />
                     {loginErrors.email && (
@@ -139,14 +154,17 @@ export default function Login() {
                     )}
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="password" className="text-base font-medium">
+                    <Label
+                      htmlFor="password"
+                      className="text-xs lg:text-base font-medium"
+                    >
                       Senha
                     </Label>
                     <Input
                       id="password"
                       type="password"
                       placeholder="min. 8 caracteres"
-                      className="h-[61px] mt-3 mb-4"
+                      className="h-[51px] mt-3 mb-4 text-sm lg:text-base"
                       {...registerLogin("password")}
                     />
                     {loginErrors.password && (
@@ -155,17 +173,18 @@ export default function Login() {
                       </p>
                     )}
                   </div>
-                  <div className="flex items-center space-x-2 mt-[30px] justify-between">
-                    <div className="flex size-5 items-center">
+
+                  <div className="flex items-center justify-between mt-[30px]">
+                    <div className="flex items-center space-x-2">
                       <Checkbox id="remember" className="size-5" />
                       <label
                         htmlFor="remember"
-                        className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-[10px]"
+                        className="text-xs lg:text-base font-medium"
                       >
                         Lembrar
                       </label>
                     </div>
-                    <p className="text-primary text-sm font-medium">
+                    <p className="text-primary text-xs lg:text-base font-medium">
                       Esqueceu a senha?
                     </p>
                   </div>
@@ -173,13 +192,13 @@ export default function Login() {
                 <CardFooter className="flex flex-col w-full gap-4">
                   <Button
                     type="submit"
-                    className="w-full h-[51px] text-base font-medium"
+                    className="w-full h-[51px] text-sm lg:text-base font-medium"
                   >
                     Entrar
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full h-[51px] text-base font-medium"
+                    className="w-full h-[51px] text-sm lg:text-base font-medium"
                   >
                     <Image
                       width={24}
@@ -189,7 +208,7 @@ export default function Login() {
                     />
                     Entrar com o Google
                   </Button>
-                  <p className="text-sm font-medium mt-2">
+                  <p className="text-xs lg:text-sm font-medium mt-2">
                     Ainda não tem conta?{" "}
                     <button
                       type="button"
@@ -209,23 +228,26 @@ export default function Login() {
             <form onSubmit={handleRegisterSubmit(onRegister)}>
               <Card>
                 <CardHeader>
-                  <CardTitle className="font-bold text-[32px] mb-[18px]">
+                  <CardTitle className="font-bold text-2xl lg:text-[32px] mb-[18px]">
                     Cadastrar
                   </CardTitle>
-                  <CardDescription className="text-base font-medium">
+                  <CardDescription className="text-xs lg:text-base font-medium">
                     Digite um email e senha para se cadastrar
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="space-y-1">
-                    <Label htmlFor="email" className="text-base font-medium">
+                    <Label
+                      htmlFor="email"
+                      className="text-xs lg:text-base font-medium"
+                    >
                       Email
                     </Label>
                     <Input
                       id="email"
                       type="email"
                       placeholder="e-mail@website.com"
-                      className="h-[61px] mt-3 mb-4"
+                      className="h-[51px] mt-3 mb-4 text-sm lg:text-base"
                       {...registerRegister("email")}
                     />
                     {registerErrors.email && (
@@ -235,14 +257,17 @@ export default function Login() {
                     )}
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="password" className="text-base font-medium">
+                    <Label
+                      htmlFor="password"
+                      className="text-xs lg:text-base font-medium"
+                    >
                       Senha
                     </Label>
                     <Input
                       id="password"
                       type="password"
                       placeholder="min. 8 caracteres"
-                      className="h-[61px] mt-3 mb-4"
+                      className="h-[51px] mt-3 mb-4 text-sm lg:text-base"
                       {...registerRegister("password")}
                     />
                     {registerErrors.password && (
@@ -254,7 +279,7 @@ export default function Login() {
                   <div className="space-y-1">
                     <Label
                       htmlFor="confirmPassword"
-                      className="text-base font-medium"
+                      className="text-xs lg:text-base font-medium"
                     >
                       Confirmar Senha
                     </Label>
@@ -262,7 +287,7 @@ export default function Login() {
                       id="confirmPassword"
                       type="password"
                       placeholder="Digite a mesma senha escolhida"
-                      className="h-[61px] mt-3 mb-4"
+                      className="h-[51px] mt-3 mb-4 text-sm lg:text-base"
                       {...registerRegister("confirmPassword")}
                     />
                     {registerErrors.confirmPassword && (
@@ -286,16 +311,14 @@ export default function Login() {
                         />
                       )}
                     />
-
                     <label
                       htmlFor="terms"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      className="text-xs lg:text-sm font-medium"
                     >
                       Concordo com os{" "}
                       <span className="text-primary">Termos e Condições</span>
                     </label>
                   </div>
-
                   {registerErrors.terms && (
                     <p className="text-red-500 text-sm font-medium">
                       {registerErrors.terms.message}
@@ -305,13 +328,13 @@ export default function Login() {
                 <CardFooter className="flex flex-col gap-4 w-full">
                   <Button
                     type="submit"
-                    className="w-full h-[51px] text-base font-medium"
+                    className="w-full h-[51px] text-sm lg:text-base font-medium"
                   >
                     Cadastrar
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full h-[51px] text-base font-medium"
+                    className="w-full h-[51px] text-sm lg:text-base font-medium"
                   >
                     <Image
                       width={24}
@@ -321,7 +344,7 @@ export default function Login() {
                     />
                     Entrar com o Google
                   </Button>
-                  <p className="text-sm font-medium mt-2">
+                  <p className="text-xs lg:text-sm font-medium mt-2">
                     Já tem conta?{" "}
                     <button
                       type="button"
@@ -338,7 +361,8 @@ export default function Login() {
         </Tabs>
       </div>
 
-      <div className="relative flex items-center justify-center h-screen w-full">
+      {/* Desktop only - Side img and h1 */}
+      <div className="hidden lg:flex relative items-center justify-center h-screen w-full overflow-hidden">
         <Image
           src="/bg.png"
           alt="Imagem de fundo"
