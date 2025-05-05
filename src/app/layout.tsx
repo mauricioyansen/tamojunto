@@ -1,6 +1,9 @@
+"use client"
+
 import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { SessionProvider } from "next-auth/react";
 
 const beVietnamPro = Be_Vietnam_Pro({
   subsets: ["latin"],
@@ -16,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${beVietnamPro.variable} font-sans antialiased`}>
-        {children}
+        <SessionProvider>{children}</SessionProvider>
         <Toaster richColors />
       </body>
     </html>

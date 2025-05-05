@@ -197,8 +197,10 @@ export default function Login() {
                     Entrar
                   </Button>
                   <Button
+                    type="button"
                     variant="outline"
                     className="w-full h-[51px] text-sm lg:text-base font-medium"
+                    onClick={() => signIn("google", { callbackUrl: "/" })}
                   >
                     <Image
                       width={24}
@@ -333,8 +335,10 @@ export default function Login() {
                     Cadastrar
                   </Button>
                   <Button
+                    type="button"
                     variant="outline"
                     className="w-full h-[51px] text-sm lg:text-base font-medium"
+                    onClick={() => signIn("google", { callbackUrl: "/" })}
                   >
                     <Image
                       width={24}
